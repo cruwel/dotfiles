@@ -14,6 +14,17 @@ call neobundle#begin(expand('/Users/ruel/.vim/bundle'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+" syntastic
+NeoBundle 'scrooloose/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 " Let vundle manage some bundles
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -57,12 +68,12 @@ function! s:my_cr_function()
   "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 endfunction
 " <TAB>: completion.
-       inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-       " <C-h>, <BS>: close popup and delete backword char.
-       inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-       inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-       inoremap <expr><C-y>  neocomplete#close_popup()
-       inoremap <expr><C-e>  neocomplete#cancel_popup()
+       	inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+       	" <C-h>, <BS>: close popup and delete backword char.
+       	inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+       	inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+       	inoremap <expr><C-y>  neocomplete#close_popup()
+ 	inoremap <expr><C-e>  neocomplete#cancel_popup()
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -104,15 +115,20 @@ NeoBundleLazy 'nosami/Omnisharp', {
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 
+" for macvim
 NeoBundle 'koron/minimap-vim'
+
+" for text aligning
+NeoBundle 'godlygeek/tabular'
+
+" Comment Toggle with press , twice
+NeoBundle 'scrooloose/nerdcommenter'
+let NERDSpaceDelims = 1
+nmap ,, <Plug>NERDCommenterToggle
+vmap ,, <Plug>NERDCommenterToggle
 
 NeoBundle 'scrooloose/nerdtree'
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
-
-" minimap
-" NeoBundle 'severin-lemaignan/vim-minimap'
-" nnoremap <silent><C-m> :Minimap<CR>
-" let g:minimap_highlight='Visual'
 
 " Required:
 call neobundle#end()
@@ -128,27 +144,16 @@ NeoBundleCheck
 "  Key maps for easy to use
 " ------------------------------------------------------------------------
 
-nnoremap <silent><C-(> :vertical resize -1<CR>
-nnoremap <silent><C-)> :vertical resize +1<CR>
+if bufwinnr(1)
+	map - <C-W><UP>
+	map + <C-W><DOWN>
+endif
+
+" visual tab makes shift the lines and shift to reverse
+vmap <Tab> >gv
+vmap <S-Tab> <gv
 
 " ------------------------------------------------------------------------
-
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-"Plugin 'severin-lemaignan/vim-minimap'
-nnoremap <silent><C-m> :MinimapSync<CR>
-
-call vundle#end()            " required
-filetype plugin indent on    " required
 
 set hlsearch
 set nu
