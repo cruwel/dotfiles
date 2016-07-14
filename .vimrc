@@ -31,6 +31,7 @@ call vundle#begin()
 
 " Add or remove your Bundles here:
 NeoBundle 'Shougo/unite.vim'
+"NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/vimproc.vim', {
 \   'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
@@ -41,13 +42,34 @@ NeoBundle 'Shougo/vimproc.vim', {
 \   }
 \ }
 
+NeoBundle 'Align'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'shougo/vimshell.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'vim-scripts/cscope.vim'
+NeoBundle 'tpope/vim-markdown'
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+
+" --------------------------------------------------------------------
+
+NeoBundle 'terryma/vim-multiple-cursors'
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+" Map start key separately from next key
+let g:multi_cursor_start_key='<F6>'
+
+" --------------------------------------------------------------------
 
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
@@ -91,6 +113,9 @@ nnoremap <C-S-Right>   :tabnext<CR>
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'honza/vim-snippets'
+NeoBundle 'tpope/vim-surround' 
+NeoBundle 'davidhalter/jedi-vim'
 
 " Taglist
 NeoBundle 'taglist.vim'
@@ -103,6 +128,8 @@ let g:auto_ctags = 1
 let g:auto_ctags_directory_list = ['.git', '.svn']
 set tags+=.svn/tags
 
+" NeoBundle 'oranget/vim-csharp'
+
 NeoBundleLazy 'nosami/Omnisharp', {
 \   'autoload': {'filetypes': ['cs']},
 \   'build': {
@@ -111,6 +138,45 @@ NeoBundleLazy 'nosami/Omnisharp', {
 \     'unix': 'xbuild ~/.vim/omnisharp-server/OmniSharp.sln',
 \   }
 \ }
+
+" ------------------------------------------------------------------------
+" Omnisharp settings
+" ------------------------------------------------------------------------
+
+augroup omnisharp_commands
+	autocmd!
+
+	"Set autocomplete function to OmniSharp (if not using YouCompleteMe
+	"completion plugin)
+	autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+	
+	" Automatically add new cs files to the nearest project on
+	" save
+	autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+
+	"show type information automatically when the cursor stops moving
+	autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+	"The following commands are contextual, based on the current cursor
+	"position.
+	autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+	autocmd FileType cs nnoremap fi :OmniSharpFindImplementations<cr>
+	autocmd FileType cs nnoremap ft :OmniSharpFindType<cr>
+	autocmd FileType cs nnoremap fs :OmniSharpFindSymbol<cr>
+	autocmd FileType cs nnoremap fu :OmniSharpFindUsages<cr>
+	autocmd FileType cs nnoremap fm :OmniSharpFindMembers<cr> 
+	"finds members in the current buffer
+
+	" cursor can be anywhere on the line containing an issue 
+	autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>  
+	autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
+	autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+	autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+	autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr> "navigate up by method/property/field
+	autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr> "navigate down by method/property/field
+
+augroup END
+" ------------------------------------------------------------------------
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
@@ -152,6 +218,9 @@ endif
 " visual tab makes shift the lines and shift to reverse
 vmap <Tab> >gv
 vmap <S-Tab> <gv
+
+" history jump
+nnoremap <C-H> :jumps<cr>
 
 " ------------------------------------------------------------------------
 
