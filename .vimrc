@@ -139,6 +139,8 @@ NeoBundleLazy 'nosami/Omnisharp', {
 \   }
 \ }
 
+NeoBundle 'valloric/youcompleteme'
+
 " ------------------------------------------------------------------------
 " Omnisharp settings
 " ------------------------------------------------------------------------
@@ -164,16 +166,19 @@ augroup omnisharp_commands
 	autocmd FileType cs nnoremap ft :OmniSharpFindType<cr>
 	autocmd FileType cs nnoremap fs :OmniSharpFindSymbol<cr>
 	autocmd FileType cs nnoremap fu :OmniSharpFindUsages<cr>
-	autocmd FileType cs nnoremap fm :OmniSharpFindMembers<cr> 
+	autocmd FileType cs nnoremap fm :OmniSharpFindMembers<cr>
+	autocmd FileType cs nnoremap <C-R> :OmniSharpRename<cr>
 	"finds members in the current buffer
 
 	" cursor can be anywhere on the line containing an issue 
 	autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>  
 	autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
-	autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-	autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+	autocmd FileType cs nnoremap tt :OmniSharpTypeLookup<cr>
+	autocmd FileType cs nnoremap dc :OmniSharpDocumentation<cr>
 	autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr> "navigate up by method/property/field
 	autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr> "navigate down by method/property/field
+
+	let g:OmniSharp_selector_ui = 'unite'
 
 augroup END
 " ------------------------------------------------------------------------
