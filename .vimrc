@@ -4,11 +4,11 @@ if has('vim_starting')
   endif
 
   " Required:
-  set runtimepath+=/Users/ruel/.vim/bundle/neobundle.vim/
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 " Required:
-call neobundle#begin(expand('/Users/ruel/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 " Let NeoBundle manage NeoBundle
 " Required:
@@ -24,10 +24,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" Let vundle manage some bundles
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 
 " Add or remove your Bundles here:
 NeoBundle 'Shougo/unite.vim'
@@ -133,9 +129,9 @@ set tags+=.svn/tags
 NeoBundleLazy 'nosami/Omnisharp', {
 \   'autoload': {'filetypes': ['cs']},
 \   'build': {
-\     'windows': 'MSBuild.exe ~/.vim/omnisharp-server/OmniSharp.sln /p:Platform="Any CPU"',
-\     'mac': 'xbuild ~/.vim/omnisharp-server/OmniSharp.sln',
-\     'unix': 'xbuild ~/.vim/omnisharp-server/OmniSharp.sln',
+\     'windows': 'MSBuild.exe ~/.vim/bundle/omnisharp/server/OmniSharp.sln /p:Platform="Any CPU"',
+\     'mac': 'xbuild ~/.vim/bundle/omnisharp/server/OmniSharp.sln',
+\     'unix': 'xbuild ~/.vim/bundle/omnisharp/server/OmniSharp.sln',
 \   }
 \ }
 
@@ -178,7 +174,7 @@ augroup omnisharp_commands
 	autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr> "navigate up by method/property/field
 	autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr> "navigate down by method/property/field
 
-	let g:OmniSharp_selector_ui = 'unite'
+	let g:OmniSharp_selector_ui = 'ctrlp'
 
 augroup END
 " ------------------------------------------------------------------------
